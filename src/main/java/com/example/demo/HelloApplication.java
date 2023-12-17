@@ -20,6 +20,8 @@ public class HelloApplication extends Application {
     public static void main(String[] args) {
         System.out.println("Pick");
         System.out.println("Hello");
+        System.out.println("Cats");
+        System.out.println("Dogs");
         launch();
     }
 }
