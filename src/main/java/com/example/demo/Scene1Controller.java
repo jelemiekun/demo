@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.Object.Person;
+import com.example.SQL.SQL;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -26,13 +27,13 @@ public class Scene1Controller {
 
     @FXML
     private void btnAddClick(MouseEvent event) {
-        addAPerson();
+        checkBeforeaddAPerson();
     }
 
     @FXML
     private void pressedEnter(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
-            addAPerson();
+            checkBeforeaddAPerson();
         }
     }
 
@@ -42,22 +43,33 @@ public class Scene1Controller {
             for (int i = listViewPerson.getItems().size() - 1; i >= 0; i--) {
                 listViewPerson.getItems().remove(i);
             }
+            SQL.deleteAllNames();
         }
     }
 
-    private void addAPerson() {
+    private void checkBeforeaddAPerson() {
         if (!txtFieldPerson.getText().isEmpty()) {
             String name = txtFieldPerson.getText();
             if (listViewPerson.getItems().contains(name)) {
                 duplicateName();
             } else {
-                Person person = new Person(name);
-                listViewPerson.getItems().add(person.getName());
-                clearField();
+                addAPerson(name);
             }
         } else {
             emptyField();
         }
+    }
+
+    public void addAPerson(String name) {
+        Person person = new Person(name);
+        listViewPerson.getItems().add(person.getName());
+        clearField();
+        SQL.addAPersonQuery(person);
+    }
+
+    public void addAPerson(Person person) {
+        listViewPerson.getItems().add(person.getName());
+        clearField();
     }
 
     private void emptyField() {
